@@ -1,15 +1,17 @@
 :root {
   --main-color: #282c349a;
+  --previous-color: #282c349a;
   --secondary-color: #61dafb;
   --quote-height: 0px;
 }
 
 .App {
-  background-color: var(--main-color);
+  background-color: var(--previous-color);
   text-align: center;
   width: 100vw;
   height: 100vh;
   z-index: -1;
+  overflow: hidden;
 }
 
 .quote{
@@ -39,7 +41,7 @@
 }
 
 button{
-  background-color: var(--main-color);
+  background-color: var(--previous-color);
   color:white;
   border:none;
   border-radius: 5px;
@@ -85,12 +87,26 @@ button:hover{
   opacity: 1;
 }
 
+.circle{
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  opacity: 0;
+  margin:0;
+}
+
+
 .fade-in{
   animation: fadeIn 2500ms ease forwards;
 }
 
 .scale{
   animation: scaleInOut 3s ease forwards;
+}
+
+.fade-out{
+  animation: fadeOut 1s ease forwards;
 }
 
 @keyframes fadeIn {
@@ -113,3 +129,13 @@ button:hover{
     transform: scale(1);
   }
 }
+
+@keyframes fadeOut {
+  0% {
+    background-color: var(--previous-color);
+  }
+  100% {
+    background-color: var(--main-color);
+  } 
+}
+

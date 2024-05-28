@@ -9,8 +9,9 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 function App() {
 
   return (
-    <div className="App">
+    <div className="App" id="App">
       <Quote />
+      <div className="circle" id="circle"></div>
     </div>
   );
 }
@@ -31,8 +32,21 @@ class Quote extends React.Component {
 
   animateQuote() {
     console.log('animate');
+    const app = document.getElementById('App');
     const quoteText = document.getElementById('quote-text');
     const quoteBox = document.getElementById('quote-box');
+    const buttons = document.getElementsByClassName('button');
+    const buttonsArray = Array.from(buttons);
+    buttonsArray.forEach(button => {
+      button.classList.remove('fade-out');
+      setTimeout(() => {
+        button.classList.add('fade-out');
+      },100);
+    });
+    app.classList.remove('fade-out');
+    setTimeout(() => {
+      app.classList.add('fade-out');
+    },100);
     quoteBox.classList.remove('scale');
     setTimeout(() => {
       quoteBox.classList.add('scale');
@@ -46,6 +60,8 @@ class Quote extends React.Component {
   getQuote() {
     const root = document.querySelector(':root');
     const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    const prevColor = root.style.getPropertyValue('--main-color');
+    console.log(prevColor);
     const quoteBox = document.getElementById('quote-box');
     const windowHeight = window.innerHeight;
     fetch('https://api.quotable.io/random')
@@ -55,8 +71,9 @@ class Quote extends React.Component {
           quote: data.content,
           author: data.author,
         });
-        this.animateQuote();
+        root.style.setProperty('--previous-color', prevColor);
         root.style.setProperty('--main-color', `#${randomColor+"9a"}`);
+        this.animateQuote();
         root.style.setProperty('--secondary-color', `#${randomColor}dd`);
         root.style.setProperty('--quote-height', `${windowHeight/2-quoteBox.clientHeight/2}px`);
       })
@@ -65,19 +82,19 @@ class Quote extends React.Component {
 
   render(){
     return (
-      <div className="fluid-container quote" id="quote-box">
-        <div className="quote-text fade-in" id="quote-text">
-          <FontAwesomeIcon icon={faQuoteLeft} className="icon" size="2xl"/>
-          <h1 id="text">{this.state.quote}</h1>
+        <div className="fluid-container quote" id="quote-box">
+          <div className="quote-text fade-in" id="quote-text">
+            <FontAwesomeIcon icon={faQuoteLeft} className="icon" size="2xl"/>
+            <h1 id="text">{this.state.quote}</h1>
+          </div>
+          <p id="author">- {this.state.author}</p>
+          <div className="button-group">
+            <a href="twitter.com/intent/tweet" id="tweet-quote" target="_blank" rel="noreferrer">
+              <button style={{borderRadius:"5px"}} className='twitter button'><span className='tooltiptext'>Tweet this quote</span><FontAwesomeIcon icon={faTwitter} /></button>
+            </a>
+          <button className="button" onClick={this.getQuote} style={{borderRadius:"5px"}} id="new-quote">Get Quote</button>
+          </div>
         </div>
-        <p id="author">- {this.state.author}</p>
-        <div className="button-group">
-          <a href="twitter.com/intent/tweet" id="tweet-quote" target="_blank" rel="noreferrer">
-            <button style={{borderRadius:"5px"}} className='twitter'><span className='tooltiptext'>Tweet this quote</span><FontAwesomeIcon icon={faTwitter} /></button>
-          </a>
-        <button onClick={this.getQuote} style={{borderRadius:"5px"}} id="new-quote">Get Quote</button>
-        </div>
-      </div>
     )
   }
 }
