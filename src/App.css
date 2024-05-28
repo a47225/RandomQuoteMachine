@@ -29,6 +29,7 @@
   margin:30px;
   display: flex;
   justify-content: center;
+  opacity: 0;
 }
 
 .button-group{
@@ -55,32 +56,60 @@ button:hover{
   margin-left: 10px;
 }
 
-
-.tooltip {
+.twitter{
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black;
+  margin: 0 10px;
 }
 
-.tooltip .tooltiptext {
+.twitter .tooltiptext {
   visibility: hidden;
   width: 120px;
-  color: black;
+  color: white;
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
   position: absolute;
   z-index: 1;
-  border:3px solid black;
+  border:none;
   bottom: 100%;
   left: 50%;
   margin-left: -60px;
-  background-color:white;
+  background-color:#000000aa;
   opacity: 0;
   transition: opacity 1s;
 }
 
-.tooltip:hover .tooltiptext {
+.twitter:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.fade-in{
+  animation: fadeIn 2500ms ease forwards;
+}
+
+.scale{
+  animation: scaleInOut 3s ease forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleInOut {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

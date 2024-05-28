@@ -7,6 +7,7 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 
 function App() {
+
   return (
     <div className="App">
       <Quote />
@@ -21,10 +22,25 @@ class Quote extends React.Component {
       quote: '',
     }
     this.getQuote = this.getQuote.bind(this);
+    this.animateQuote = this.animateQuote.bind(this);
   }
 
   componentDidMount() {
     this.getQuote();
+  }
+
+  animateQuote() {
+    console.log('animate');
+    const quoteText = document.getElementById('quote-text');
+    const quoteBox = document.getElementById('quote-box');
+    quoteBox.classList.remove('scale');
+    setTimeout(() => {
+      quoteBox.classList.add('scale');
+    },100);
+    quoteText.classList.remove('fade-in');
+    setTimeout(() => {
+      quoteText.classList.add('fade-in');
+    },100);
   }
 
   getQuote() {
@@ -39,6 +55,7 @@ class Quote extends React.Component {
           quote: data.content,
           author: data.author,
         });
+        this.animateQuote();
         root.style.setProperty('--main-color', `#${randomColor+"9a"}`);
         root.style.setProperty('--secondary-color', `#${randomColor}dd`);
         root.style.setProperty('--quote-height', `${windowHeight/2-quoteBox.clientHeight/2}px`);
@@ -49,14 +66,14 @@ class Quote extends React.Component {
   render(){
     return (
       <div className="fluid-container quote" id="quote-box">
-        <div className="quote-text">
+        <div className="quote-text fade-in" id="quote-text">
           <FontAwesomeIcon icon={faQuoteLeft} className="icon" size="2xl"/>
           <h1 id="text">{this.state.quote}</h1>
         </div>
         <p id="author">- {this.state.author}</p>
         <div className="button-group">
           <a href="twitter.com/intent/tweet" id="tweet-quote" target="_blank" rel="noreferrer">
-            <button style={{borderRadius:"5px"}}><FontAwesomeIcon icon={faTwitter} /></button>
+            <button style={{borderRadius:"5px"}} className='twitter'><span className='tooltiptext'>Tweet this quote</span><FontAwesomeIcon icon={faTwitter} /></button>
           </a>
         <button onClick={this.getQuote} style={{borderRadius:"5px"}} id="new-quote">Get Quote</button>
         </div>
